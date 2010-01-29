@@ -13,7 +13,7 @@ if ($_GET['oauth_token']) {
     $store->clearRequestToken($_GET['oauth_token']);
     $access_token = YahooAuthorization::getAccessToken(KEY, SECRET, $request_token, $_GET['oauth_verifier']);
     $store->storeAccessToken($access_token);
-    header('location: profile.php?guid='.$access_token->guid);
+    header('location: comments.php');
 } else {
     $request_token = YahooAuthorization::getRequestToken(KEY, SECRET, CALLBACK);
     $store->storeRequestToken($request_token);

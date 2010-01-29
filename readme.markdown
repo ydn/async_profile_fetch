@@ -19,3 +19,9 @@ Suppose you have a service that uses Yahoo! data requiring authorization via OAu
    Normally, the user would be logged in at the time the comments are posted, so the guid would already be associated with the comments when they are viewed.
    1. Load _init.php_ in a browser and authorize access.  
    After authorization, you'll be redirected to _comments.php_, which will load the profile data
+
+## License
+
+   * Copyright: (c) 2009, Yahoo! Inc. All rights reserved.
+   * License: code licensed under the BSD License.  See [license.markdown](http://github.com/ydn/async_profile_fetch/blob/master/license.markdown)
+   * Package: [http://github.com/ydn/async\_profile\_fetch](http://github.com/ydn/async_profile_fetch)

@@ -4,6 +4,8 @@ This sample code uses OAuth to allow users to authorize access to their Yahoo! P
 
 Suppose you have a service that uses Yahoo! data requiring authorization via OAuth and you display that data on a publicly available page.  For example, you have comments on your pages, and you use the Yahoo! Profile API to display the name Yahoo! Profile picture of each comment author.  To do this, you need to store an OAuth access token for each user.  To increase the performance of your page, you might want to request this data after the page loads.  
 
+For simplicity's sake, OAuth tokens are stored in a local file and security precautions are omitted.  This code is only intended for demonstration purposes.  If you have trouble with the code or this documentation, please note it in the [issues](http://github.com/ydn/async_profile_fetch/issues) section of this project.
+
 ## Requirements
 
    * PHP 4 or 5
@@ -16,7 +18,7 @@ Suppose you have a service that uses Yahoo! data requiring authorization via OAu
    Make sure it's accessible via the url you used to create your Yahoo! OAuth key and secret
    1. Edit _config.php_ to use your OAuth key, secret, app id, and callback url
    1. Edit _comments.php_ to use the Yahoo! guids of your users.  
-   Normally, the user would be logged in at the time the comments are posted, so the guid would already be associated with the comments when they are viewed.
+   Normally, the user would be logged in at the time the comments are posted, so the guids would already be associated with the comments when they are viewed.
    1. Load _init.php_ in a browser and authorize access.  
    After authorization, you'll be redirected to _comments.php_, which will load the profile data
 

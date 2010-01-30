@@ -4,13 +4,16 @@
 * License: code licensed under the BSD License.  See [license.markdown](http://github.com/ydn/async_profile_fetch/blob/master/license.markdown)
 */
 
+//define guids for testing here
+$yahooGuids = array('BG5BMUK24OOYGHWKTJBCX2TN5E', 'VEGCGDXJ7FSR2PHSWPIR7EXMAQ');
+
 //comments from some db query
 $comments = array(
     array(
         'provider' => 'yahoo',
         
         //yahoo user 1
-        'id' => 'BG5BMUK24OOYGHWKTJBCX2TN5E',
+        'id' => $yahooGuids[0],
         
         'text' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         'date' => '1264631647'
@@ -37,7 +40,7 @@ $comments = array(
         'provider' => 'yahoo',
         
         //yahoo user 2
-        'id' => 'VEGCGDXJ7FSR2PHSWPIR7EXMAQ',
+        'id' => $yahooGuids[1],
         
         'text' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         'date' => '1264631647'
@@ -64,7 +67,7 @@ $comments = array(
         'provider' => 'yahoo',
         
         //yahoo user 1
-        'id' => 'BG5BMUK24OOYGHWKTJBCX2TN5E',
+        'id' => $yahooGuids[0],
         
         'text' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         'date' => '1264631647'

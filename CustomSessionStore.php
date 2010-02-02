@@ -7,16 +7,50 @@
 
 require '../../yosdk/yahoo-yos-social-php-1fe1b43/lib/YahooSessionStore.inc';
 
+class SqliteStorage
+{
+   function __construct()
+   {
+       //the directory containing this file must be writable for this to work
+       if ($this->db = new SQLiteDatabase('sqlite')) {
+           
+           //if there's no 'storage' table, create one
+           $q = @$this->db->query('SELECT value FROM storage WHERE key = 1');
+           if ($q === false) {
+               $sql = "CREATE TABLE storage (key text, value text, PRIMARY KEY (key)); INSERT INTO storage VALUES (1,1)";
+               $this->db->queryExec($sql);
+           }
+       } else {
+           die($err);
+       }
+   }
+   
+   function insert($key, $value)
+   {
+       $sql = "INSERT INTO storage (key, value) values ('$key', '$value')";
+       $this->db->queryExec($sql);
+   }
+   
+   function select($key)
+   {
+       $sql = "SELECT value FROM storage WHERE key = '$key'";
+       $result = $this->db->query($sql);
+       return $result = $result->fetchSingle();
+   }
+   
+   function delete($key)
+   {
+       $sql = "DELETE FROM storage WHERE key = '$key'";
+       $this->db->queryExec($sql);
+   }
+}
+
 class CustomSessionStore implements YahooSessionStore {
     
-    function __construct($guid=NULL, $storage='yahooTokenStorage.php'){
+    function __construct($guid=NULL){
         $this->guid = $guid;
         $this->storage = $storage;
-        
-        //init w/ empty array
-        if (!is_file($this->storage)) {
-           file_put_contents($this->storage, serialize(array()));
-        }
+        $this->storage = new SqliteStorage;
     }
     
     /**
@@ -47,9 +81,7 @@ class CustomSessionStore implements YahooSessionStore {
      * @return True on success, false otherwise.
      */
     function storeRequestToken($token){
-        $storage = unserialize(file_get_contents($this->storage));
-        $storage[$token->key] = $token;
-        file_put_contents($this->storage, serialize($storage));
+        $this->storage->insert($token->key, serialize($token));
         return true;
     }
 
@@ -59,8 +91,7 @@ class CustomSessionStore implements YahooSessionStore {
      * @return The request token.
      */
     function fetchRequestToken($oauth_token=NULL){
-        $storage = unserialize(file_get_contents($this->storage));
-        return $storage[$oauth_token];
+        return unserialize($this->storage->select($oauth_token));
     }
 
     /**
@@ -69,9 +100,7 @@ class CustomSessionStore implements YahooSessionStore {
      * @return True on success, false otherwise.
      */
     function clearRequestToken(){
-        $storage = unserialize(file_get_contents($this->storage));
-        unset($storage[$this->request_token]);
-        file_put_contents($this->storage, serialize($storage));
+        $this->storage->delete($oauth_token);
     }
 
     /**
@@ -82,9 +111,7 @@ class CustomSessionStore implements YahooSessionStore {
      * @return True on success, false otherwise.
      */
     function storeAccessToken($token){
-        $storage = unserialize(file_get_contents($this->storage));
-        $storage[$token->guid] = $token;
-        file_put_contents($this->storage, serialize($storage));
+        $this->storage->insert($token->guid, serialize($token));
         return true;
     }
 
@@ -94,8 +121,7 @@ class CustomSessionStore implements YahooSessionStore {
      * @return The access token.
      */
     function fetchAccessToken(){
-        $storage = unserialize(file_get_contents($this->storage));
-        return $storage[$this->guid];   
+        return unserialize($this->storage->select($this->guid));
     }
 
     /**
@@ -104,8 +130,6 @@ class CustomSessionStore implements YahooSessionStore {
      * @return True on success, false otherwise.
      */
     function clearAccessToken(){
-        $storage = unserialize(file_get_contents($this->storage));
-        unset($storage[$this->guid]);
-        file_put_contents($this->storage, serialize($storage));
+        $this->storage->delete($this->guid);
     }
 }
